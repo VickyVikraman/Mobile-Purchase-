@@ -1,0 +1,151 @@
+<div class="seller">
+  <ul class="allMobiles">
+    <li *ngFor="let mobile of mobiles" class="mobileDetails">
+      <div>
+          <!-- <div class="imageCarosel"> -->
+
+        <ngb-carousel *ngIf="images" [showNavigationArrows]="false" [showNavigationIndicators]="true">
+            <ng-template ngbSlide *ngFor="let image of mobile.file"> 
+                <svg aria-hidden="true" data-prefix="far" data-icon="edit" (click)="open(content , mobile)" class="svg-inline--fa fa-edit fa-w-18 edit" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1 0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7 0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174L402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7l-43.2-43.2c-4.1-4.1-10.8-4.1-14.8 0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"></path></svg>
+                <svg aria-hidden="true" data-prefix="far" data-icon="trash-alt" (click)="delete(mobile.id)" class="svg-inline--fa fa-trash-alt fa-w-14 trash" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M192 188v216c0 6.627-5.373 12-12 12h-24c-6.627 0-12-5.373-12-12V188c0-6.627 5.373-12 12-12h24c6.627 0 12 5.373 12 12zm100-12h-24c-6.627 0-12 5.373-12 12v216c0 6.627 5.373 12 12 12h24c6.627 0 12-5.373 12-12V188c0-6.627-5.373-12-12-12zm132-96c13.255 0 24 10.745 24 24v12c0 6.627-5.373 12-12 12h-20v336c0 26.51-21.49 48-48 48H80c-26.51 0-48-21.49-48-48V128H12c-6.627 0-12-5.373-12-12v-12c0-13.255 10.745-24 24-24h74.411l34.018-56.696A48 48 0 0 1 173.589 0h100.823a48 48 0 0 1 41.16 23.304L349.589 80H424zm-269.611 0h139.223L276.16 50.913A6 6 0 0 0 271.015 48h-94.028a6 6 0 0 0-5.145 2.913L154.389 80zM368 128H80v330a6 6 0 0 0 6 6h276a6 6 0 0 0 6-6V128z"></path></svg>
+                <img  [src]="image" class="slideImage" alt="Random slide">
+            </ng-template>
+        </ngb-carousel>
+
+          <!-- </div> -->
+          <div class="details"  (click)="showDetails(mobile,mobileContent)">
+            <ul>
+              <li>Name : {{mobile.name}}</li>
+              <li>Manufacturer : {{mobile.manufacturer}}</li>
+              <li>Operating System : {{mobile.os}}</li>
+              <!-- <li>Battery : {{mobile.battery}} mAh</li>
+              <li>RAM : {{mobile.storage.ram}} GB</li>
+              <li>Internal Storage : {{mobile.storage.internal}} GB</li>
+              <li>Expandable Upto : {{mobile.storage.expandable}} GB</li>
+              <li>
+                  Dimensions:
+                  <ul>
+                    <li>Width : {{mobile.dimension.width}} cm</li>
+                    <li>Depth : {{mobile.dimension.depth}} cm</li>
+                    <li>Height : {{mobile.dimension.height}} cm</li>
+                  </ul>
+              </li> -->
+            </ul>
+          </div>
+      </div>
+    </li>
+    <li>
+      <add-mobile></add-mobile>
+        <ng-template #content let-modal>
+          <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Mobile update</h4>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <form  (ngSubmit)="modal.close('Save click')">
+                    <div class="form-group">
+                      <label for="name">Name:</label>
+                      <input type="text" class="form-control" id="name" [(ngModel)]="mobile.name" placeholder="Enter name of Mobile Phone" name="name">
+                    </div>
+                    <div class="form-group">
+                      <label for="Manufacturer">Manufacturer:</label>
+                      <input type="text" class="form-control" id="Manufacturer"  [(ngModel)]="mobile.manufacturer" placeholder="Enter Manufacturer Name" name="Manufacturer">
+                    </div>
+                    <div class="form-group">
+                        <label for="os">Operating System(with version):</label>
+                        <input type="text" class="form-control" id="os" [(ngModel)]="mobile.os" placeholder="Enter OS" name="os">
+                    </div>
+                    <label for="storage">Storage</label>
+                    <div class="form-group split" id="storage">
+                        <div class="form-inline container">
+                            <div class="form-group col-md-6">
+                                <label for="ram">RAM:</label>
+                                <input type="number" class="form-control" id="ram" [(ngModel)]="mobile.storage.ram" placeholder="Enter RAM capacity" name="ram">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="internal">Internal Storage:</label>
+                                <input type="number" class="form-control" id="internal" [(ngModel)]="mobile.storage.internal" placeholder="Enter internal storage capacity" name="internal">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="expand">Expandable Upto:</label>
+                                <input type="number" class="form-control" id="expand" [(ngModel)]="mobile.storage.expandable" placeholder="Enter Expandable capacity" name="expand">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="battery">Battery:</label>
+                        <input type="number" class="form-control" id="battery" [(ngModel)]="mobile.battery" placeholder="Enter Baterry Capacity in mAh" name="battery">
+                    </div>
+                    <div class="form-group">
+                        <label for="weight">Weight:</label>
+                        <input type="number" class="form-control" id="weight" [(ngModel)]="mobile.weight" placeholder="Enter weight in gms" name="weight">
+                    </div>
+                    <label for="dim">Dimension</label>
+                    <div class="form-group split" id="dim">
+                        <div class="form-inline container">
+                            <div class="form-group col-md-6">
+                                <label for="width">Width:</label>
+                                <input type="number" class="form-control" id="width" [(ngModel)]="mobile.dimension.width " placeholder="width in cms" name="width">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="depth">Depth:</label>
+                                <input type="number" class="form-control" id="depth" [(ngModel)]="mobile.dimension.depth" placeholder="depth in cms" name="depth">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="height">Height:</label>
+                                <input type="number" class="form-control" id="height" [(ngModel)]="mobile.dimension.height" placeholder="height in cms" name="height">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="stock">In Stock:</label>
+                        <input type="number" class="form-control" id="stock" [(ngModel)]="mobile.stock" placeholder="Enter Stock in Hold" name="stock">
+                    </div>
+                    <button type="submit" class="btn btn-primary" (click)="update()" >Update</button>
+                  </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+            </div>
+          </ng-template>
+          <ng-template #mobileContent let-modal>
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title">Mobile update</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                              <ngb-carousel *ngIf="images" [showNavigationArrows]="true" [showNavigationIndicators]="true">
+                                  <ng-template ngbSlide *ngFor="let image of mobile.file"> 
+                                      <img  [src]="image" class="slideImage" alt="Random slide">
+                                  </ng-template>
+                              </ngb-carousel>                                
+                                <div class="details"  (click)="showDetails(mobile,mobileContent)">
+                                  <ul>
+                                    <li>Name : {{mobile.name}}</li>
+                                    <li>Manufacturer : {{mobile.manufacturer}}</li>
+                                    <li>Operating System : {{mobile.os}}</li>
+                                    <li>Battery : {{mobile.battery}} mAh</li>
+                                    <li>RAM : {{mobile.storage.ram}} GB</li>
+                                    <li>Internal Storage : {{mobile.storage.internal}} GB</li>
+                                    <li>Expandable Upto : {{mobile.storage.expandable}} GB</li>
+                                    <li>
+                                        Dimensions:
+                                        <ul>
+                                          <li>Width : {{mobile.dimension.width}} cm</li>
+                                          <li>Depth : {{mobile.dimension.depth}} cm</li>
+                                          <li>Height : {{mobile.dimension.height}} cm</li>
+                                        </ul>
+                                    </li>
+                                    <li>Remaining Stock: {{mobile.stock}}</li>
+                                  </ul>
+                            </div>
+                  </div>
+                </ng-template>
+    </li>
+  </ul>
+</div>
+

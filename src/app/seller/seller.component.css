@@ -1,0 +1,69 @@
+.allMobiles
+{
+    list-style-type: none;
+}
+.seller
+{
+    text-align: left;
+}
+.imageCarosel
+{
+    padding: 1%;
+}
+.mobileDetails
+{
+  margin-right: 2px;
+  margin-top: 2%;
+  float: left;
+  position: relative;
+  max-width: 300px;
+  max-height: 75vh;
+  border-radius: 10px;
+  border: 1px solid gray;
+}
+
+.mobileDetails:hover
+{
+    cursor: pointer;
+    box-shadow: 0 0 1em black;
+}
+.slideImage
+{
+    
+    position: relative;
+    width: 260px;
+    height: 230px;
+    border-top-left-radius: 9px;
+    border-top-right-radius:9px;
+}
+.details{
+
+}
+.imageCarosel
+{
+    background-color: black;
+}
+.edit{
+    height: 20px;
+    position: absolute;
+    z-index: 1;
+    margin-top: 6px;
+    margin-left: 6px;
+}
+.edit:hover{
+    height:25px;
+
+}
+
+.trash
+{
+    height: 20px;
+    position: absolute;
+    z-index: 1;
+    margin-top: 6px;
+    margin-left: 238px;
+}
+
+.trash:hover{
+    height: 25px;
+}

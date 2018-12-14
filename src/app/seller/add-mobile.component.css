@@ -1,0 +1,23 @@
+.addMobile
+{
+    margin-left: 1%;
+    width: 20%;
+    float: left;
+    text-align: center
+}
+.fa-plus-square-o
+{
+    
+    font-size: 18em !important;
+}
+i:hover{
+    cursor: pointer;
+    box-shadow: 0 0 0.3em burlywood;
+}
+.split
+{
+    border-top: 1px solid black;
+}
+label{
+    font-weight: bold;
+}
