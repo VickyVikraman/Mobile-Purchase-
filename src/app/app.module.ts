@@ -8,12 +8,14 @@ import {AddMobile } from './seller/add-mobile'
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import {HttpClientModule} from '@angular/common/http';
+import { BuyerComponent } from './buyer/buyer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SellerComponent,
-    AddMobile
+    AddMobile,
+    BuyerComponent
   ],
   imports: [
     NgbModule,

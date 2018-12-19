@@ -1,0 +1,41 @@
+.qty
+{
+    width: 60%!important;
+    display:inline;
+}
+.cart
+{
+    width: 4%;
+    position: absolute;
+    top: 5%;
+    left: 5%;
+}
+.cart:hover
+{
+    width: 5%;
+}
+
+.cartQty
+{
+    left: 47%;
+    position: absolute;
+    background-color: white;
+    border-radius: 74%;
+    top: 13%;
+    height: 40%;
+    width: 40%;
+    text-align: center;
+}
+
+.err{
+    font-size: 10px;
+    color: indianred;
+}
+
+.buttonAlign
+{
+    display: inline;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}

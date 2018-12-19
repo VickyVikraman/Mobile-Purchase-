@@ -18,18 +18,7 @@
               <li>Name : {{mobile.name}}</li>
               <li>Manufacturer : {{mobile.manufacturer}}</li>
               <li>Operating System : {{mobile.os}}</li>
-              <!-- <li>Battery : {{mobile.battery}} mAh</li>
-              <li>RAM : {{mobile.storage.ram}} GB</li>
-              <li>Internal Storage : {{mobile.storage.internal}} GB</li>
-              <li>Expandable Upto : {{mobile.storage.expandable}} GB</li>
-              <li>
-                  Dimensions:
-                  <ul>
-                    <li>Width : {{mobile.dimension.width}} cm</li>
-                    <li>Depth : {{mobile.dimension.depth}} cm</li>
-                    <li>Height : {{mobile.dimension.height}} cm</li>
-                  </ul>
-              </li> -->
+              <li>Price : {{mobile.price}}</li>
             </ul>
           </div>
       </div>
@@ -100,9 +89,14 @@
                         </div>
                     </div>
                     <div class="form-group">
+                            <label for="price">Price:</label>
+                            <input type="number" class="form-control" id="price" [(ngModel)]="mobile.price" placeholder="Enter price" name="price">
+                        </div>
+                    <div class="form-group">
                         <label for="stock">In Stock:</label>
                         <input type="number" class="form-control" id="stock" [(ngModel)]="mobile.stock" placeholder="Enter Stock in Hold" name="stock">
                     </div>
+                    
                     <button type="submit" class="btn btn-primary" (click)="update()" >Update</button>
                   </form>
             </div>
