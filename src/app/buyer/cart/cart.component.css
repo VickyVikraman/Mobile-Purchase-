@@ -1,0 +1,18 @@
+.increaseBtn
+{
+    width: 20%;
+    cursor: pointer;
+    border-radius: 36px;
+    text-align: -webkit-center;
+}
+
+.arrange
+{
+    float: left;
+}
+
+.image
+{
+    margin-top: 5%;
+    float: right;
+}

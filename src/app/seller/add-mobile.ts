@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import AddMobileService from './add-mobile.service'
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-import {HttpResponse} from  '@angular/common/http'
 @Component({
   selector: 'add-mobile',
   templateUrl: './add-mobile.component.html',
@@ -21,14 +20,15 @@ export class AddMobile {
     file:[]
 
   };
+
   url : any;
   onSubmit() {
   
     this.addMobileService.addMobile(this.mobile);
     this.mobile.file=[];
+    window.location.href="/seller";
 
   }
-
   private base64textString:String="";
   imgSrc:any;
   selectFile(evt){
@@ -46,6 +46,20 @@ export class AddMobile {
   }
 }
 
+versions : [];
+chooseVersion(value)
+{
+  this.mobile.version=value;
+}
+chooseOS(value)
+{
+  this.mobile.os=value;
+  this.addMobileService.getVersion(value).subscribe((data : [])=>{
+    this.versions=data;
+    console.log(this.versions);
+  });
+  console.log(this.mobile);
+}
 
 
 _handleReaderLoaded(readerEvt) {

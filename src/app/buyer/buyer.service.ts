@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders,HttpRequest,HttpResponse } from '@angular/commo
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
-const cart=[];
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,6 @@ const cart=[];
 export class BuyerService {
   private mobileUrl = 'http://localhost:8080'
   constructor(private http : HttpClient) { }
-
 
   getMobile()
   {
@@ -29,9 +28,36 @@ export class BuyerService {
     return this.http.post(url,cart,httpOptions).toPromise();
   }
 
-
-  getCart()
+  addMobileToCart(mobileId,qty)
   {
-    return cart;
+    let cart={
+      id:mobileId,
+      qty:qty
+    }
+    const url = "http://localhost:8080/addToCart";
+    return this.http.post(url,cart,httpOptions);
+  }
+
+  getItemFromCart()
+  {
+    const url = "http://localhost:8080/getCartItem";
+    return this.http.get(url);
+  }
+
+  getItemById(data)
+  {
+    const url = "http://localhost:8080/getItemByIds";
+    return this.http.post(url,data,httpOptions)
+  }
+
+  removeItem(id)
+  {
+    const url="http://localhost:8080/deleteItem?&id="+id;
+    return this.http.get(url).toPromise();
+  }
+  deleteAll(cart : any)
+  {
+    const url="http://localhost:8080/deleteAll";
+    return this.http.post(url,cart,httpOptions);
   }
 }

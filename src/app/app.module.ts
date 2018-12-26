@@ -9,13 +9,15 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import {HttpClientModule} from '@angular/common/http';
 import { BuyerComponent } from './buyer/buyer.component';
+import { CartComponent } from './buyer/cart/cart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SellerComponent,
     AddMobile,
-    BuyerComponent
+    BuyerComponent,
+    CartComponent
   ],
   imports: [
     NgbModule,

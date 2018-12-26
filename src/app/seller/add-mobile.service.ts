@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders,HttpRequest,HttpResponse } from '@angular/common/http'
-import { Observable,of} from 'rxjs'
+import { HttpClient, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http'
+import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators';
 
 const httpOptions = {
@@ -10,15 +10,12 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export  class AddMobileService {
+export class AddMobileService {
   private mobileUrl = 'http://localhost:8080'
-  constructor(private http : HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  addMobile(mobile : any){
-
-    
-
-    const url = this.mobileUrl+'/add';
+  addMobile(mobile: any) {
+    const url = this.mobileUrl + '/add';
     console.log(url)
     console.log(mobile);
     this.http.post(url, mobile, httpOptions).subscribe(event => {
@@ -26,18 +23,16 @@ export  class AddMobileService {
         console.log('File is completely uploaded!');
       }
     });
-      
+
   }
 
-  getMobile()
-  {
-    const url = this.mobileUrl+'/get'
+  getMobile() {
+    const url = this.mobileUrl + '/get'
     return this.http.get(url);
   }
 
-  updateMobile(mobile : any)
-  {
-    const url = this.mobileUrl+'/update'
+  updateMobile(mobile: any) {
+    const url = this.mobileUrl + '/update'
     console.log(url)
     console.log(mobile);
     this.http.post(url, mobile, httpOptions).subscribe(event => {
@@ -47,12 +42,10 @@ export  class AddMobileService {
     });
   }
 
-  addImage(file : File[])
-  {
-    
+  addImage(file: File[]) {
+
     const formdata: FormData = new FormData();
-    for(let i=0;i<file.length;i++)
-    {
+    for (let i = 0; i < file.length; i++) {
       formdata.append('file', file[i]);
     }
     const req = new HttpRequest('POST', 'http://localhost:8080/uploadpicture', formdata, {
@@ -64,11 +57,17 @@ export  class AddMobileService {
 
   }
 
-  delete(id:any)
-  {
-    const url = "http://localhost:8080/delete?&id="+id;
+  delete(id: any) {
+    const url = "http://localhost:8080/delete?&id=" + id;
     console.log(url)
     return this.http.get(url).toPromise();
+  }
+
+  getVersion(os:any)
+  {
+    const url = "http://localhost:8080/version?&os=" + os;
+    return this.http.get(url);
+
   }
 
 

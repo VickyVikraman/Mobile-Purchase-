@@ -1,0 +1,216 @@
+<div>
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Manufacture</th>
+            <th>Specification</th>
+            <th>Qty</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cartMobile of cartItems;let i=index;">
+            <td>{{i}}</td>
+            <td>{{cartMobile.name}}
+              <br>
+                <button class="btn btn-danger btn-sm" (click)="removeItem(cartMobile.id)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+            </td>
+            <td>{{cartMobile.manufacturer}}</td>
+            <td>
+              <ul>
+                <li>{{cartMobile.battery}} mAh</li>
+                <li>{{cartMobile.storage.ram}} GB Ram</li>
+                <li>{{cartMobile.storage.internal}} GB Internal Storage</li>
+              </ul>
+            </td>
+            <td>
+              <button  (click)="decCount(i)" [disabled]="isZero" class="btn btn-default form-control increaseBtn">-</button>
+                {{cartMobile.qty}}
+              <button  (click)="incCount(i)" class="btn btn-default form-control increaseBtn">+</button>
+            </td>
+            <td>{{cartMobile.price * cartMobile.qty}}</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td> 
+            <th>Total</th>
+            <th>{{total}}</th>
+        </tr>
+        </tbody>
+    </table>
+    <div style="float:right">
+        <button class="btn btn-success btn-lg " (click)="checkout(cartContent)">Continue</button>
+    </div>
+    <ng-template #cartContent let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title"> Address Details</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="control-label" for="Country">Country:</label>
+                <select *ngIf="getCountries()" [(ngModel)]="selectedCountry" (change)="onSelectCountry($event.target.value)" class="form-control input-lg" id="country">
+                   <option value="0">Select Country</option>
+                  <option *ngFor="let country of getCountries()" value= {{country.id}}>{{country.name}}</option>
+                </select>
+              </div>
+             
+              <div class="form-group">
+                <label class="control-label" for="States">States:</label>
+                <select *ngIf="states" [(ngModel)]="selectedState" (change)="onSelectState($event.target.value)" class="form-control input-lg" id="state">
+                    <option value="0">Select State</option>
+                  <option *ngFor="let state of states" value= {{state.id}}>{{state.name}}</option>
+                </select>
+              </div>
+             
+              <div class="form-group">
+                <label class="control-label" for="City">City:</label>
+                <select class="form-control input-lg" id="city"  [(ngModel)]="selectedCity"  (change)="onSelectCity($event.target.value)">
+                    <option *ngIf="!selectedState" value="0">Select City</option>
+                    <option *ngFor="let city of cities" value= {{city.id}}>{{city.name}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="address">Flat No,Street & City</label>
+                <input type="text" name="address" id="address" [(ngModel)]="addr" class="form-control input-lg"/>
+              </div>
+              <div class="form-group">
+                  <label class="control-label" for="zip">Zip</label>
+                  <input type="text" name="zip" (keypress)="zipPress($event)" [(ngModel)]="zip" minlength=6 maxlength=6 id="zip" class="form-control input-lg"/>
+              </div>
+              <div class="form-group">
+                  <label class="control-label" for="number">Phone Number</label>
+                  <input type="text" name="number" id="number" (keypress)="keyPress($event)" [(ngModel)]="phone" minlength=10 maxlength=10 class="form-control input-lg"/>
+              </div>
+        </div>
+        <div class="modal-footer">
+          <form   (submit)="modal.close('Save click')">
+            <button class="btn btn-warning btn-lg " [disabled]="disabled" (click)="checkoutWith(invoice)">Proceed To Pay</button>
+          </form>
+        </div>
+      </ng-template>
+      <ng-template #invoice let-modal>
+          <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title"> Address Details</h4>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body" >
+            <div id="print-section">
+            <div>
+              <strong><p>{{street}}<br>{{city}}<br>{{state}} - {{code}}<br>{{country}}<br>Phone Number:{{ph}}</p></strong>
+            </div>
+            <div>
+              <h4>Cart Details</h4>
+              <table class="table">
+                <thead>
+                  <th>Name</th>
+                  <th>Manufacturer</th>
+                  <th>Qty</th>
+                  <th>Price</th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let cartMobile of cartItems;">
+                    <td>{{cartMobile.name}}</td>
+                    <td>{{cartMobile.manufacturer}}</td>
+                    <td>{{cartMobile.qty}}</td>
+                    <td>{{cartMobile.price * cartMobile.qty}}</td>
+                  </tr>
+                  <tr>
+                      <td></td>
+                      <td></td> 
+                      <th>Total</th>
+                      <th>{{total}}</th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+            <div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" [value]="true"  id="inlineRadio1" (click)="setRadio('cod')" value="option1" ngModel>
+                    <label class="form-check-label" for="inlineRadio1">Cash On Delivery</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" (click)="setRadio('card')" value="option2" ngModel>
+                    <label class="form-check-label" for="inlineRadio2">Credit/Debit Card </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" (click)="setRadio('banking')" value="option3" ngModel>
+                    <label class="form-check-label" for="inlineRadio3">Net Banking</label>
+                  </div>
+            </div>
+            <div *ngIf="isSelected('card')">
+                <!-- <input/>
+                <input type="text" class="form-control" placeholder="cvv"/> -->
+                <div class="form-group owner">
+                    <label for="owner">Owner</label>
+                    <input type="text" class="form-control" placeholder="Card Holder Name" id="owner">
+                </div>
+                <div class="form-group" id="card-number-field">
+                    <label for="cardNumber">Card Number</label>
+                    <input type="text" (keypress)="keyPress($event)" class="form-control" minlength=16 maxlength=16  id="cardNumber">
+                </div>
+                <div class="form-group CVV">
+                  <div class="arrange">
+                    <label for="cvv">CVV</label>
+                    <input type="text" (keypress)="keyPress($event)" minlength=3  maxlength=3 class="form-control col-md-6" id="cvv">
+                  </div>
+                  <div class="arrange">
+                    <label for="exp">Expiration Date</label>
+                    <div id="exp">
+                    <select class="form-control arrange col-md-6">
+                        <option value="01">January</option>
+                        <option value="02">February </option>
+                        <option value="03">March</option>
+                        <option value="04">April</option>
+                        <option value="05">May</option>
+                        <option value="06">June</option>
+                        <option value="07">July</option>
+                        <option value="08">August</option>
+                        <option value="09">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                    <select class="form-control arrange col-md-6">
+                        <option value="16"> 2016</option>
+                        <option value="17"> 2017</option>
+                        <option value="18"> 2018</option>
+                        <option value="19"> 2019</option>
+                        <option value="20"> 2020</option>
+                        <option value="21"> 2021</option>
+                    </select>                  
+                  </div>
+                  </div>
+                </div>
+                <br>
+                <div class="form-group image" id="credit_cards">
+                    <img src="assets/images/visa.jpg" id="visa">
+                    <img src="assets/images/mastercard.jpg" id="mastercard">
+                    <img src="assets/images/amex.jpg" id="amex">
+                </div>
+                
+                
+            </div>
+            <div *ngIf="isSelected('banking')">
+                <label for="user">User Name</label>
+                <input type="text" class="form-control" id="user" placeholder="User Name"/>
+                <label for="pwd">Password</label>
+                <input type="text" class="form-control" id="pwd" placeholder="Password"/>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <form (submit)="modeal.close('Save Click')">
+              <button class="btn btn-warning btn-lg" [disabled]="disabled" (click)="print()" >Proceed To Checkout</button>
+            </form>
+          </div>
+        </ng-template>
+</div>

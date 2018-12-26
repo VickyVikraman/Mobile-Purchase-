@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import AddMobileService from './add-mobile.service'
 import {NgbModal, ModalDismissReasons,NgbCarouselConfig} from '@ng-bootstrap/ng-bootstrap';
+import { version } from 'punycode';
 @Component({
   selector: 'app-seller',
   templateUrl: './seller.component.html',
@@ -15,8 +16,11 @@ export class SellerComponent implements OnInit {
       config.showNavigationIndicators = true;
     }
   mobiles :[];
-  mobile : {};
+  mobile : {
+    version:""
+  };
   imgSrc : any;
+  total = 0;
   images:any;
   ngOnInit() {
     this.getMobiles();
@@ -27,13 +31,21 @@ export class SellerComponent implements OnInit {
         for(let i=0;i<this.mobiles.length;i++)
         {
           this.imgSrc=this.mobiles[i];
+          this.sumOfStock(this.mobiles[i]);
         }
         this.images=this.imgSrc.file;
         console.log(this.mobiles)
     });
   }
+
+  sumOfStock(details:any)
+  {
+    this.total= this.total+Number(details.stock);    
+  }
+
   open(content , selected) {
     this.mobile  = selected;
+    this.getVersion(this.mobile);
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -41,6 +53,20 @@ export class SellerComponent implements OnInit {
     });
   }
 
+  versions:[];
+  getVersion(mobile:any)
+  {
+    this.addMobileService.getVersion(mobile.os).subscribe((data: [] )=>{
+      this.versions=data;
+      console.log(this.versions);     
+    });
+  }
+
+  chooseVersion(value)
+{
+  this.mobile.version=value;
+  console.log(this.mobile)
+}
   showDetails(mobile,content)
   {
     this.mobile  = mobile;
@@ -55,12 +81,14 @@ export class SellerComponent implements OnInit {
   {
     console.log(id);
       this.addMobileService.delete(id);
+      window.location.href="/seller"
   }
 
   update()
   {
+    console.log(this.mobile)
     this.addMobileService.updateMobile(this.mobile);
-  }
+  }  
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
